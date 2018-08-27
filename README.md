@@ -1,5 +1,5 @@
 
-# PushManager
+# Pushmanager
 
 ![AndroidStudio](https://img.shields.io/badge/Android_Studio-3.1.4-brightgreen.svg)
 ![minSDK](https://img.shields.io/badge/minSDK-API_16-orange.svg?style=flat)
