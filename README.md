@@ -65,7 +65,7 @@ pushmanager.register(
 ```
 
 
-### Unregiste from FCM
+### Unregister from FCM
 To unregister from FCM you need to register first. By using the token you received, you are able to unregister.
 ```
 pushmanager.unregister(context, token)
