@@ -78,7 +78,7 @@ pushmanager.subscriptToTopic(
 
 #### Unsubscribe from Topic
 
-To unsubscribe from a topic call  `subscriptToTopic`:
+To unsubscribe from a topic call  `unsubscriptFromTopic`:
 
 ```
 pushmanager.unsubscriptFromTopic(
