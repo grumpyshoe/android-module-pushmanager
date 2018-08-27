@@ -106,6 +106,9 @@ pushmanager.unsubscriptFromTopic(
 To run the sample App, just replace the `application_id` at the project `build.gradle` with someone according to your firebase project and add your `google-services.json` to to app root folder.
 
 
+## Tests
+Tests are not implemented yet but will be added soon.
+
 ## Need Help or something missing?
 
 Please [submit an issue](https://github.com/grumpyshoe/android-module-pushmanager/issues) on GitHub.

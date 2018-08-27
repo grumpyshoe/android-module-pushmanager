@@ -35,10 +35,10 @@ dependencies {
     implementation libs.firebase_messaging
     implementation libs.anko
 
-//    testImplementation 'junit:junit:4.12'
+    testImplementation libs.junit
 
-//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation libs.test_runner
+    androidTestImplementation libs.espresso_core
 
 }
 
