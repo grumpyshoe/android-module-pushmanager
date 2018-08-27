@@ -8,11 +8,27 @@
 
 ## Installation
 
-Add this dependency to your _build.gradle_:
+Add google-services as dependency to your project `build.gradle`
+```
+buildscript {
+    ...
+    dependencies {
+        ...
+        classpath "com.google.gms:google-services:4.0.2"
+        ...
+    }
+}
+```
+
+
+Add this dependency to your app _build.gradle_ and apply the plugin at the bottom:
 ```
 implementation 'com.github.grumpyshoe:android-module-pushmanager:1.0.0'
 ```
-
+```
+...
+apply plugin: 'com.google.gms.google-services'
+```
 
 ## Usage
 
@@ -104,6 +120,10 @@ pushmanager.unsubscriptFromTopic(
 ## Sample App
 
 To run the sample App, just replace the `application_id` at the project `build.gradle` with someone according to your firebase project and add your `google-services.json` to to app root folder.
+
+## Troubleshooting
+
+If your app doesn't compile after adding this library, please check your dependencies for other play-service packages and update them to the newest version.
 
 
 ## Tests
