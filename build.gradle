@@ -62,25 +62,6 @@ allprojects {
 
         ]
     }
-
-//    ext {
-//
-//        // base config
-//        compileSdk = 27
-//        buildTools = "27.0.3"
-//        minSdk = 21
-//        targetSdk = 27
-//        buildNumber = 7
-//        appVersionCode = buildNumber
-//        appVersionName = "1.2.0"
-//        dagger = '2.12'
-//        supportTestVersion = "1.0.1"
-//        espressoVersion = "2.2.2"
-//
-//        // libraries
-//        libs = [
-//                // Test
-//                junit                : ('junit:junit:4.12'),
 }
 
 task clean(type: Delete) {
