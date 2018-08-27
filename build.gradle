@@ -1,0 +1,69 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        kotlin_version = '1.2.50'
+        gms_google_services = '4.0.2'
+
+    }
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.gms:google-services:$gms_google_services"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+
+    ext {
+
+        compile_sdk_version = 27
+        application_id = "com.grumpyshoe.modules.pushmanager.sample"
+        min_sdk_version = 16
+        target_sdk_version = 27
+        build_tools_version = "27.0.3"
+        version_code = 1
+        version_name = "1.0"
+
+        support_version = "27.1.1"
+
+        libs = [
+
+                // google support
+                appcompatv7       : ("com.android.support:appcompat-v7:$support_version"),
+
+                // firebase
+                firebase_core     : ("com.google.firebase:firebase-core:16.0.1"),
+                firebase_iid      : ("com.google.firebase:firebase-iid:17.0.0"),
+                firebase_messaging: ("com.google.firebase:firebase-messaging:17.3.0"),
+
+                // Tests
+                junit             : ("junit:junit:4.12"),
+                test_runner       : ("com.android.support.test:runner:1.0.2"),
+                espresso_core     : ("com.android.support.test.espresso:espresso-core:3.0.2"),
+
+                // other
+                kotlin            : ("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"),
+                anko              : ("org.jetbrains.anko:anko-support-v4:0.10.5"),
+                constraint_layout : ("com.android.support.constraint:constraint-layout:1.1.2"),
+
+        ]
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
