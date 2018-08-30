@@ -20,6 +20,17 @@ buildscript {
 }
 ```
 
+and add `jitpack`to your repositories
+```
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+    ...
+}
+```
+
 
 Add this dependency to your app _build.gradle_ and apply the plugin at the bottom:
 ```
