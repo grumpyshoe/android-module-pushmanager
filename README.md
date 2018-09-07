@@ -32,10 +32,9 @@ allprojects {
 }
 ```
 
-
 Add this dependency to your app _build.gradle_ and apply the plugin at the bottom:
 ```gradle
-implementation 'com.github.grumpyshoe:android-module-pushmanager:1.1.0'
+implementation 'com.github.grumpyshoe:android-module-pushmanager:1.2.0'
 ```
 ```gradle
 ...
@@ -44,17 +43,57 @@ apply plugin: 'com.google.gms.google-services'
 
 ## Usage
 
-- Get instance of PushManager:
+Get instance of PushManager:
 ```kotlin
 val pushmanager: PushManager = PushManagerImpl  
 ```
 
-- Put your `google-services.json` to the app-root folder.
+Put your `google-services.json` to the app-root folder.
 
+
+Create a class extending `PushmanagerMessagingService` and implement `handleNotificationPayload`.
+```kotlin
+class MyService : PushmanagerMessagingService() {
+
+    override fun handleNotificationPayload(context:Context, remoteMessageData: RemoteMessageData): NotificationData {
+
+      Log.d("PushManager", "handlePayload - ${remoteMessageData.title} - ${remoteMessageData.body}" )
+
+      // create pending intent (example)
+      val notificationIntent = Intent(context, SomeActivity::class.java)
+      notificationIntent.putExtra("info", "Some information for pending intent")
+      notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+      val contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+      // create notification (example)
+      NotificationData(
+            context = context,
+            title = remoteMessageData.title ?: "Default Title",
+            message = remoteMessageData.body ?: "Default Message",
+            channelId = "channel_global_notifications",             // needed SDK >= Android O
+            autoCancel = true,
+            pendingIntent = contentIntent)
+    }
+}
+```
+Add your implementation to you `Manifest.xml`
+```
+<application ... >
+
+       <service
+           android:name=".MyService">
+           <intent-filter>
+               <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+           </intent-filter>
+       </service>
+       ...
+
+</application>
+```
 
 ### Register to FCM
 
-- Call the method `register` in your `onCreate` to register to FCM.
+Call the method `register` in your `onCreate` to register to FCM.
 ```kotlin
 pushmanager.register(
       context = this,
@@ -63,25 +102,6 @@ pushmanager.register(
       },
       onFailure = { exception ->
           Log.d("PushManager", " error during registration: ${exception?.message}")
-      },
-      handlePayload = { remoteMessageData ->
-
-          Log.d("PushManager", "handlePayload - ${remoteMessageData.title} - ${remoteMessageData.body}" )
-
-          // create pending intent (example)
-          val notificationIntent = Intent(applicationContext, SomeActivity::class.java)
-          notificationIntent.putExtra("info", "Some information for pending intent")
-          notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-          val contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-          // create notification
-          NotificationData(
-                context = this,
-                title = remoteMessageData.title ?: "Default Title",
-                message = remoteMessageData.body ?: "Default Message",
-                channelId = "channel_global_notifications",             // needed SDK >= Android O
-                autoCancel = true,
-                pendingIntent = contentIntent)
       })
 ```
 
@@ -143,12 +163,8 @@ pushmanager.unsubscriptFromTopic(
 To run the sample App, just replace the `application_id` at the project `build.gradle` with someone according to your firebase project and add your `google-services.json` to to app root folder.
 
 ## Troubleshooting
+See [Troubleshooting](https://github.com/grumpyshoe/android-module-pushmanager/wiki) at github wiki.
 
-If your app doesn't compile after adding this library, please check your dependencies for other play-service packages and update them to the newest version.
-
-
-## Tests
-Tests are not implemented yet but will be added soon.
 
 ## Need Help or something missing?
 
@@ -165,6 +181,9 @@ This project is licensed under the terms of the MIT license. See the [LICENSE](L
 #### Changelog
 **1.1.0**
 - Change PendingIntent handling and move it's logic to `NotificationData`.
+
+**1.2.0**
+- Change structure of how to implement payload handling
 
 
 #### Build Environment

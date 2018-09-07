@@ -8,8 +8,8 @@ import com.grumpyshoe.module.pushmanager.models.RemoteMessageData
 /**
  * <p>PushManager - interface for easy access to FCM</p>
  *
+ * @version  1.2.0
  * @since    1.0.0
- * @version  1.0.0
  * @author   grumpyshoe
  *
  */
@@ -20,7 +20,7 @@ interface PushManager {
      * register device for cloudmessaging
      *
      */
-    fun register(context: Context, onTokenReceived: (String) -> Unit, onFailure: (Exception?) -> Unit, handlePayload: (RemoteMessageData) -> NotificationData?)
+    fun register(context: Context, onTokenReceived: (String) -> Unit, onFailure: (Exception?) -> Unit)
 
 
     /**
