@@ -15,15 +15,14 @@ import org.jetbrains.anko.doAsync
 /**
  * <p>PushManagerImpl is based on PushManager and contains all connection logic for handling FCM</p>
  *
+ * @version  1.2.0
  * @since    1.0.0
- * @version  1.0.0
  * @author   grumpyshoe
  *
  */
 object PushManagerImpl : PushManager {
 
     private var onTokenReceived: ((String) -> Unit)? = null
-    private var handlePayload: ((RemoteMessageData) -> NotificationData?)? = null
 
 
     /**
@@ -39,10 +38,9 @@ object PushManagerImpl : PushManager {
      * register
      *
      */
-    override fun register(context: Context, onTokenReceived: (String) -> Unit, onFailure: (Exception?) -> Unit, handlePayload: (RemoteMessageData) -> NotificationData?) {
+    override fun register(context: Context, onTokenReceived: (String) -> Unit, onFailure: (Exception?) -> Unit) {
 
         this.onTokenReceived = onTokenReceived
-        this.handlePayload = handlePayload
 
         // init firebase
         initPushmanager(context)
@@ -123,15 +121,5 @@ object PushManagerImpl : PushManager {
     fun sendRegistrationToServer(token: String) {
         this.onTokenReceived?.let { it(token) }
     }
-
-
-    /**
-     * handle payload
-     *
-     */
-    fun handleNotificationPayload(payload: RemoteMessageData): NotificationData? {
-        return handlePayload?.let { it(payload) }
-    }
-
 
 }

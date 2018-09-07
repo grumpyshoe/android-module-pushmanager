@@ -30,9 +30,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation libs.kotlin
     implementation libs.appcompatv7
-    implementation libs.firebase_core
-    implementation libs.firebase_iid
-    implementation libs.firebase_messaging
+    api libs.firebase_core
+    api libs.firebase_iid
+    api libs.firebase_messaging
     implementation libs.anko
 
     testImplementation libs.junit

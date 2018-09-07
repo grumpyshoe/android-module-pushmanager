@@ -12,14 +12,14 @@ import com.grumpyshoe.module.pushmanager.models.NotificationType
 import com.grumpyshoe.module.pushmanager.models.RemoteMessageData
 
 /**
- * <p>MyFirebaseMessagingService is the service implementation fro handling incoming fcm-messages.</p>
+ * <p>PushmanagerMessagingService is the service implementation fro handling incoming fcm-messages.</p>
  *
+ * @version  1.2.0
  * @since    1.0.0
- * @version  1.0.0
  * @author   grumpyshoe
  *
  */
-class MyFirebaseMessagingService : FirebaseMessagingService() {
+abstract class PushmanagerMessagingService : FirebaseMessagingService() {
 
     val pushManager = PushManagerImpl
 
@@ -29,7 +29,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
     // [START receive_message]
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // [START_EXCLUDE]
         // There are two types of messages data messages and notification messages. Data messages are handled
         // here in onMessageReceived whether the app is in the foreground or background. Data messages are the type
@@ -41,7 +41,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // [END_EXCLUDE]
 
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage!!.from!!)
+        Log.d(TAG, "Message reveived")
 
         val remoteMessageData = RemoteMessageData()
 
@@ -77,20 +77,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             remoteMessageData.sound = notification.sound
             remoteMessageData.titleLocalizationKey = notification.titleLocalizationKey
             remoteMessageData.titleLocalizationArgs = notification.titleLocalizationArgs
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
         }
 
-        // let the app handle this notification and if a instance ob NotificationData is returned
-        // show a Notification at the statusbar
-        val notificationData = PushManagerImpl.handleNotificationPayload(remoteMessageData)
-        notificationData?.let {
-            sendNotification(notificationData)
-        }
+        sendNotification(handleNotificationPayload(applicationContext, remoteMessageData))
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
     }
     // [END receive_message]
+
+
+    /**
+     * custom implementation of payload handling
+     *
+     */
+    abstract fun handleNotificationPayload(context:Context, remoteMessageData : RemoteMessageData) : NotificationData
 
 
     // [START on_new_token]
@@ -185,7 +186,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
 
-        private val TAG = "MyFirebaseMsgService"
+        private val TAG = "Pushmanager"
 
     }
 

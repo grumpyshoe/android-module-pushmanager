@@ -2,13 +2,6 @@
     package="com.grumpyshoe.pushmanager" >
 
     <application>
-        <service
-            android:name="com.grumpyshoe.module.pushmanager.impl.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
