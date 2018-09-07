@@ -34,7 +34,7 @@ allprojects {
 
 Add this dependency to your app _build.gradle_ and apply the plugin at the bottom:
 ```gradle
-implementation 'com.github.grumpyshoe:android-module-pushmanager:1.2.0'
+implementation 'com.github.grumpyshoe:android-module-pushmanager:1.2.1'
 ```
 ```gradle
 ...
