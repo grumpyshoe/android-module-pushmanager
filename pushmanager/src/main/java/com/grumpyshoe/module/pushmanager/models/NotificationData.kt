@@ -1,5 +1,6 @@
 package com.grumpyshoe.module.pushmanager.models
 
+import android.app.PendingIntent
 import android.content.Context
 import android.media.RingtoneManager
 import android.net.Uri
@@ -29,6 +30,10 @@ data class NotificationData(val context: Context,
                             val subtext: String? = null,
                             val publicVersion: NotificationData? = null,
                             val onGoing: Boolean? = null,
-                            val ticker: String?= null,
-                            val useChronometer: Boolean?= null,
-                            val notificationId: Int = 0)
+                            val ticker: String? = null,
+                            val useChronometer: Boolean? = null,
+                            val notificationId: Int? = null,
+                            val pendingIntent: PendingIntent? = null,
+                            val notificationType: NotificationType = NotificationType.STACK)
+
+enum class NotificationType { SINGLE, STACK }

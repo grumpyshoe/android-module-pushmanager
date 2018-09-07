@@ -43,11 +43,4 @@ interface PushManager {
      */
     fun unsubscribeFromTopic(topic: String, onSuccess: (() -> Unit)? = null, onFailure: ((Exception?) -> Unit)? = null)
 
-
-    /**
-     * set target class for pending intent
-     *
-     */
-    fun setTargetClass(targetClass: Class<*>)
-
 }

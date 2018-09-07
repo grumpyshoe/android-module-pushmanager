@@ -2,6 +2,7 @@ package com.grumpyshoe.modules.pushmanager.sample
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,8 @@ import com.grumpyshoe.module.pushmanager.PushManager
 import com.grumpyshoe.module.pushmanager.models.NotificationData
 import com.grumpyshoe.module.pushmanager.impl.PushManagerImpl
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.Intent
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,12 +33,12 @@ class MainActivity : AppCompatActivity() {
                     this.token = it
                     val msg = "onTokenReceived - token received: $it"
                     Log.d("PushManager", msg)
-                    result.text = msg
+                    result.onUI { it.text = msg }
                 },
                 onFailure = {
                     val msg = "onFailure - error during registration: ${it?.message}"
                     Log.d("PushManager", msg)
-                    result.text = msg
+                    result.onUI { it.text = msg }
                 },
                 handlePayload = {
 
@@ -43,15 +46,22 @@ class MainActivity : AppCompatActivity() {
                     Log.d("PushManager", msg)
 
                     // update ui content
-                    runOnUiThread {
-                        result.text = msg
-                    }
+                    result.onUI { it.text = msg }
 
-                    // create notification
+                    // create pending intent
+                    val notificationIntent = Intent(applicationContext, NotificationActivity::class.java)
+                    notificationIntent.putExtra("type", it.title ?: "Default Title" + " " + it.body ?: "Default Message")
+                    notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    val contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                    // create NotificationData containing all necessary information
                     NotificationData(
                             context = this,
                             title = it.title ?: "Default Title",
-                            message = it.body ?: "Default Message")
+                            message = it.body ?: "Default Message",
+                            channelId = "channel_global_notifications",     // needed for SDK >= Android "O" (Oreo)
+                            autoCancel = true,
+                            pendingIntent = contentIntent)
                 })
 
 
@@ -70,12 +80,12 @@ class MainActivity : AppCompatActivity() {
                     onSuccess = {
                         toast("onSuccess -  successfully subscribed")
                         Log.d("PushManager", "onSuccess - successfully subscribed")
-                        result.text = "onSuccess  - successfully subscribed"
+                        result.onUI { it.text = "onSuccess  - successfully subscribed" }
                     },
-                    onFailure = {
-                        toast("onFailure -  error while subscribed: ${it?.message}")
-                        Log.d("PushManager", "onFailure - error while subscribed: ${it?.message}")
-                        result.text = "onFailure  - error while subscribed: ${it?.message}"
+                    onFailure = { exception ->
+                        toast("onFailure -  error while subscribed: ${exception?.message}")
+                        Log.d("PushManager", "onFailure - error while subscribed: ${exception?.message}")
+                        result.onUI { it.text = "onFailure  - error while subscribed: ${exception?.message}" }
                     })
         }
 

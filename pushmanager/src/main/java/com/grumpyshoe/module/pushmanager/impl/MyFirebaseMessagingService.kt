@@ -8,6 +8,7 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.grumpyshoe.module.pushmanager.models.NotificationData
+import com.grumpyshoe.module.pushmanager.models.NotificationType
 import com.grumpyshoe.module.pushmanager.models.RemoteMessageData
 
 /**
@@ -135,7 +136,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         // show notification
         val notificationManager = notificationData.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(notificationData.notificationId, notification)
+
+        val notificationId = when {
+            notificationData.notificationId != null -> notificationData.notificationId
+            notificationData.notificationType == NotificationType.STACK -> System.currentTimeMillis().toInt()
+            else -> 0
+        }
+
+        notificationManager.notify(notificationId, notification)
     }
 
 
@@ -152,7 +160,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setAutoCancel(notificationData.autoCancel)
                 .setSound(notificationData.soundUri)
 
-        // ser optional data
+
+        // set optional data
         notificationData.color?.let { notificationBuilder.color = it }
         notificationData.colorize?.let { notificationBuilder.setColorized(it) }
         notificationData.contentInfo?.let { notificationBuilder.setContentInfo(it) }
@@ -160,7 +169,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationData.light?.let { notificationBuilder.setLights(it.argb, it.onMS, it.offMS) }
         notificationData.timeoutAfter?.let { notificationBuilder.setTimeoutAfter(it) }
         notificationData.subtext?.let { notificationBuilder.setSubText(it) }
-        if(addPublicVersion) {
+        if (addPublicVersion) {
             notificationData.publicVersion?.let {
                 notificationBuilder.setPublicVersion(generateNotification(notificationData.publicVersion, false))
             }
@@ -168,6 +177,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationData.onGoing?.let { notificationBuilder.setOngoing(it) }
         notificationData.ticker?.let { notificationBuilder.setTicker(it) }
         notificationData.useChronometer?.let { notificationBuilder.setUsesChronometer(it) }
+        notificationData.pendingIntent?.let { notificationBuilder.setContentIntent(it) }
 
         return notificationBuilder.build()
     }
