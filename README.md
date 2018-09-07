@@ -1,15 +1,16 @@
 
 # Pushmanager
 
-![AndroidStudio](https://img.shields.io/badge/Android_Studio-3.1.4-brightgreen.svg)
-![minSDK](https://img.shields.io/badge/minSDK-API_16-orange.svg?style=flat)
+![AndroidStudio 3.1.4](https://img.shields.io/badge/Android_Studio-3.1.4-brightgreen.svg)
+![minSDK 16](https://img.shields.io/badge/minSDK-API_16-orange.svg?style=flat)
+  ![targetSDK 27](https://img.shields.io/badge/targetSDK-API_27-blue.svg)
 
 `Pushmanager` is a small wrapper for [FCM (Firebase Cloud Messageing)](http://https://firebase.google.com/docs/cloud-messaging/ "FCM (Firebase Cloud Messageing)") and your app needs just a few methods to interact with it.
 
 ## Installation
 
 Add google-services as dependency to your project `build.gradle`
-```
+```gradle
 buildscript {
     ...
     dependencies {
@@ -21,7 +22,7 @@ buildscript {
 ```
 
 and add `jitpack`to your repositories
-```
+```gradle
 allprojects {
     repositories {
         ...
@@ -33,10 +34,10 @@ allprojects {
 
 
 Add this dependency to your app _build.gradle_ and apply the plugin at the bottom:
-```
+```gradle
 implementation 'com.github.grumpyshoe:android-module-pushmanager:1.0.0'
 ```
-```
+```gradle
 ...
 apply plugin: 'com.google.gms.google-services'
 ```
@@ -44,7 +45,7 @@ apply plugin: 'com.google.gms.google-services'
 ## Usage
 
 - Get instance of PushManager:
-```
+```kotlin
 val pushmanager: PushManager = PushManagerImpl  
 ```
 
@@ -54,7 +55,7 @@ val pushmanager: PushManager = PushManagerImpl
 ### Register to FCM
 
 - Call the method `register` in your `onCreate` to register to FCM.
-```
+```kotlin
 pushmanager.register(
       context = this,
       onTokenReceived = { token ->
@@ -67,18 +68,27 @@ pushmanager.register(
 
           Log.d("PushManager", "handlePayload - ${remoteMessageData.title} - ${remoteMessageData.body}" )
 
+          // create pending intent (example)
+          val notificationIntent = Intent(applicationContext, SomeActivity::class.java)
+          notificationIntent.putExtra("info", "Some information for pending intent")
+          notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+          val contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
           // create notification
           NotificationData(
-                  context = this,
-                  title = remoteMessageData.title ?: "Default Title",
-                  message = remoteMessageData.body ?: "Default Message")
+                context = this,
+                title = remoteMessageData.title ?: "Default Title",
+                message = remoteMessageData.body ?: "Default Message",
+                channelId = "channel_global_notifications",             // needed SDK >= Android O
+                autoCancel = true,
+                pendingIntent = contentIntent)
       })
 ```
 
 
 ### Unregister from FCM
 To unregister from FCM you need to register first. By using the token you received, you are able to unregister.
-```
+```kotlin
 pushmanager.unregister(context, token)
 ```
 
@@ -90,7 +100,7 @@ pushmanager.unregister(context, token)
 
 To subscribe to a topic just call  `subscriptToTopic`:
 
-```
+```kotlin
 pushmanager.subscriptToTopic(
       topic = "wurst",
       onSuccess = {
@@ -107,7 +117,7 @@ pushmanager.subscriptToTopic(
 
 To unsubscribe from a topic call  `unsubscriptFromTopic`:
 
-```
+```kotlin
 pushmanager.unsubscriptFromTopic(
       topic = "wurst",
       onSuccess = {
@@ -151,6 +161,12 @@ This project is licensed under the terms of the MIT license. See the [LICENSE](L
 
 
 ## Other information
+
+#### Changelog
+**1.1.0**
+- Change PendingIntent handling and move it's logic to `NotificationData`.
+
+
 #### Build Environment
 ```
 Android Studio 3.1.4

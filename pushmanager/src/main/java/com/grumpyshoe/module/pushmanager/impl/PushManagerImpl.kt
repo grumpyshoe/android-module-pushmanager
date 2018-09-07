@@ -22,7 +22,6 @@ import org.jetbrains.anko.doAsync
  */
 object PushManagerImpl : PushManager {
 
-    private var targetClass: Class<*>? = null
     private var onTokenReceived: ((String) -> Unit)? = null
     private var handlePayload: ((RemoteMessageData) -> NotificationData?)? = null
 
@@ -118,34 +117,11 @@ object PushManagerImpl : PushManager {
 
 
     /**
-     * unregister fcm
-     *
-     */
-    override fun setTargetClass(targetClass: Class<*>) {
-        this.targetClass = targetClass
-    }
-
-
-    /**
      * send registration to server
      *
      */
     fun sendRegistrationToServer(token: String) {
         this.onTokenReceived?.let { it(token) }
-    }
-
-
-    /**
-     * get target class of pending intent
-     *
-     */
-    fun getTargetClass(): Class<*>? {
-
-        if (this.targetClass == null) {
-            Log.i("PushManager", "PushManager - no target class specified")
-        }
-
-        return targetClass
     }
 
 
