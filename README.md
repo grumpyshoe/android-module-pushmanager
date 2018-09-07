@@ -34,7 +34,7 @@ allprojects {
 
 Add this dependency to your app _build.gradle_ and apply the plugin at the bottom:
 ```gradle
-implementation 'com.github.grumpyshoe:android-module-pushmanager:1.2.0'
+implementation 'com.github.grumpyshoe:android-module-pushmanager:1.2.1'
 ```
 ```gradle
 ...
@@ -55,7 +55,7 @@ Create a class extending `PushmanagerMessagingService` and implement `handleNoti
 ```kotlin
 class MyService : PushmanagerMessagingService() {
 
-    override fun handleNotificationPayload(context:Context, remoteMessageData: RemoteMessageData): NotificationData {
+    override fun handleNotificationPayload(context:Context, remoteMessageData: RemoteMessageData): NotificationData? {
 
       Log.d("PushManager", "handlePayload - ${remoteMessageData.title} - ${remoteMessageData.body}" )
 
@@ -184,6 +184,9 @@ This project is licensed under the terms of the MIT license. See the [LICENSE](L
 
 **1.2.0**
 - Change structure of how to implement payload handling
+
+**1.2.1**
+- Make return value for `handleNotificationPayload` nullable. If this method returns _null_ no notification will be generated.
 
 
 #### Build Environment

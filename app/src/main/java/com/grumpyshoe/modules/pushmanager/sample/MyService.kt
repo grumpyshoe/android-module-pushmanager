@@ -10,7 +10,7 @@ import com.grumpyshoe.module.pushmanager.models.RemoteMessageData
 
 class MyService : PushmanagerMessagingService() {
 
-    override fun handleNotificationPayload(context:Context, remoteMessageData: RemoteMessageData): NotificationData {
+    override fun handleNotificationPayload(context:Context, remoteMessageData: RemoteMessageData): NotificationData? {
         Log.d("PushManager", "handlePayload - ${remoteMessageData.title} - ${remoteMessageData.body}")
 
         // create pending intent
