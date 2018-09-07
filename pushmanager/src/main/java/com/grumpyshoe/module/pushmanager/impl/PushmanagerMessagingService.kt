@@ -79,7 +79,11 @@ abstract class PushmanagerMessagingService : FirebaseMessagingService() {
             remoteMessageData.titleLocalizationArgs = notification.titleLocalizationArgs
         }
 
-        sendNotification(handleNotificationPayload(applicationContext, remoteMessageData))
+
+        // show notification to user if handleNotificationPayload returns a value
+        handleNotificationPayload(applicationContext, remoteMessageData)?.let {
+            sendNotification(it)
+        }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
@@ -91,7 +95,7 @@ abstract class PushmanagerMessagingService : FirebaseMessagingService() {
      * custom implementation of payload handling
      *
      */
-    abstract fun handleNotificationPayload(context:Context, remoteMessageData : RemoteMessageData) : NotificationData
+    abstract fun handleNotificationPayload(context:Context, remoteMessageData : RemoteMessageData) : NotificationData?
 
 
     // [START on_new_token]

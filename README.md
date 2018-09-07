@@ -185,6 +185,9 @@ This project is licensed under the terms of the MIT license. See the [LICENSE](L
 **1.2.0**
 - Change structure of how to implement payload handling
 
+**1.2.1**
+- MAke return value for `handleNotificationPayload` nullable. If this method returns _null_ no notification will be generated.
+
 
 #### Build Environment
 ```
