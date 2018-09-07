@@ -66,7 +66,7 @@ class MyService : PushmanagerMessagingService() {
       val contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
       // create notification (example)
-      NotificationData(
+      return NotificationData(
             context = context,
             title = remoteMessageData.title ?: "Default Title",
             message = remoteMessageData.body ?: "Default Message",
