@@ -3,8 +3,8 @@ package com.grumpyshoe.module.pushmanager.impl
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
-import android.support.v4.app.NotificationCompat
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.grumpyshoe.module.pushmanager.models.NotificationData
@@ -104,13 +104,13 @@ abstract class PushmanagerMessagingService : FirebaseMessagingService() {
      * the previous token had been compromised. Note that this is called when the InstanceID token
      * is initially generated so this is where you would retrieve the token.
      */
-    override fun onNewToken(token: String?) {
-        Log.d(TAG, "Refreshed token: " + token!!)
+    override fun onNewToken(p0: String) {
+        Log.d(TAG, "Refreshed token: " + p0!!)
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(token)
+        sendRegistrationToServer(p0)
     }
     // [END on_new_token]
 

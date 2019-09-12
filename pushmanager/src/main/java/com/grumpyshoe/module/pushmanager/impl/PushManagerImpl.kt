@@ -1,14 +1,11 @@
 package com.grumpyshoe.module.pushmanager.impl
 
 import android.content.Context
-import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.grumpyshoe.module.pushmanager.PushManager
-import com.grumpyshoe.module.pushmanager.models.NotificationData
-import com.grumpyshoe.module.pushmanager.models.RemoteMessageData
 import org.jetbrains.anko.doAsync
 
 
@@ -46,18 +43,20 @@ object PushManagerImpl : PushManager {
         initPushmanager(context)
 
         FirebaseInstanceId.getInstance().instanceId
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        onFailure(task.exception)
-                        return@OnCompleteListener
-                    }
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    onFailure(task.exception)
+                    return@OnCompleteListener
+                }
 
-                    // Get new Instance ID token
-                    val token = task.result.token
+                // Get new Instance ID token
+                val token = task.result?.token
 
-                    // Log and toast
+                // Log and toast
+                token?.let {
                     this.onTokenReceived?.let { it(token) }
-                })
+                }
+            })
     }
 
 
@@ -83,16 +82,16 @@ object PushManagerImpl : PushManager {
     override fun subscribeToTopic(topic: String, onSuccess: (() -> Unit)?, onFailure: ((Exception?) -> Unit)?) {
 
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        onFailure?.invoke(task.exception)
-                        return@OnCompleteListener
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    onFailure?.invoke(task.exception)
+                    return@OnCompleteListener
 
-                    }
+                }
 
-                    onSuccess?.invoke()
+                onSuccess?.invoke()
 
-                })
+            })
     }
 
 
@@ -102,15 +101,15 @@ object PushManagerImpl : PushManager {
      */
     override fun unsubscribeFromTopic(topic: String, onSuccess: (() -> Unit)?, onFailure: ((Exception?) -> Unit)?) {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        onFailure?.invoke(task.exception)
-                        return@OnCompleteListener
-                    }
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    onFailure?.invoke(task.exception)
+                    return@OnCompleteListener
+                }
 
-                    onSuccess?.invoke()
+                onSuccess?.invoke()
 
-                })
+            })
     }
 
 

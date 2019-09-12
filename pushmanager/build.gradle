@@ -29,17 +29,16 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation libs.kotlin
-    implementation libs.appcompatv7
+    implementation libs.appcompat
+    implementation libs.anko
     api libs.firebase_core
     api libs.firebase_iid
     api libs.firebase_messaging
-    implementation libs.anko
 
     testImplementation libs.junit
 
     androidTestImplementation libs.test_runner
     androidTestImplementation libs.espresso_core
-
 }
 
 repositories {

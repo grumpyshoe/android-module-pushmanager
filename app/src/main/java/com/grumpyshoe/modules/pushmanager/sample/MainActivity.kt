@@ -5,8 +5,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.grumpyshoe.module.pushmanager.PushManager
 import com.grumpyshoe.module.pushmanager.impl.PushManagerImpl
 import kotlinx.android.synthetic.main.activity_main.*

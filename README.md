@@ -1,9 +1,8 @@
 
 # Pushmanager
 
-![AndroidStudio 3.1.4](https://img.shields.io/badge/Android_Studio-3.1.4-brightgreen.svg)
-![minSDK 16](https://img.shields.io/badge/minSDK-API_16-orange.svg?style=flat)
-  ![targetSDK 27](https://img.shields.io/badge/targetSDK-API_27-blue.svg)
+![minSDK 16](https://img.shields.io/badge/minSDK-API_16-green.svg?style=flat)
+  ![targetSDK 28](https://img.shields.io/badge/targetSDK-API_28-blue.svg)
 
 `Pushmanager` is a small wrapper for [FCM (Firebase Cloud Messageing)](http://https://firebase.google.com/docs/cloud-messaging/ "FCM (Firebase Cloud Messageing)") and your app needs just a few methods to interact with it.
 
@@ -15,7 +14,7 @@ buildscript {
     ...
     dependencies {
         ...
-        classpath "com.google.gms:google-services:4.0.2"
+        classpath "com.google.gms:google-services:4.2.0"
         ...
     }
 }
@@ -34,7 +33,7 @@ allprojects {
 
 Add this dependency to your app _build.gradle_ and apply the plugin at the bottom:
 ```gradle
-implementation 'com.github.grumpyshoe:android-module-pushmanager:1.2.1'
+implementation 'com.github.grumpyshoe:android-module-pushmanager:1.2.2'
 ```
 ```gradle
 ...
@@ -153,9 +152,9 @@ pushmanager.unsubscriptFromTopic(
 ### Dependencies
 | Package  | Version  |
 | ------------ | ------------ |
-| com.google.firebase:firebase-core  | 16.0.1  |
-| com.google.firebase:firebase-iid  | 17.0.0  |
-| com.google.firebase:firebase-messaging  | 17.3.0  |
+| com.google.firebase:firebase-core | 17.2.0  |
+| com.google.firebase:firebase-iid  | 20.0.0  |
+| com.google.firebase:firebase-messaging  | 20.0.0  |
 
 
 ## Sample App
@@ -188,12 +187,15 @@ This project is licensed under the terms of the MIT license. See the [LICENSE](L
 **1.2.1**
 - Make return value for `handleNotificationPayload` nullable. If this method returns _null_ no notification will be generated.
 
+**1.2.2**
+- Bump dependencies to latest version.
+
 
 #### Build Environment
 ```
-Android Studio 3.1.4
-Build #AI-173.4907809, built on July 23, 2018
-JRE: 1.8.0_152-release-1024-b01 x86_64
+Android Studio 3.5
+Build #AI-191.8026.42.35.5791312, built on August 9, 2019
+JRE: 1.8.0_202-release-1483-b49-5587405 x86_64
 JVM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
-Mac OS X 10.13.4
+macOS 10.14.4
 ```

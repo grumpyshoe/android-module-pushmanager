@@ -25,13 +25,13 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':pushmanager')
     implementation libs.kotlin
-    implementation libs.appcompatv7
+    implementation libs.appcompat
     implementation libs.constraint_layout
     testImplementation libs.junit
     androidTestImplementation libs.test_runner
     androidTestImplementation libs.espresso_core
-    implementation project(':pushmanager')
 }
 
 
