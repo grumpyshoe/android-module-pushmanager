@@ -14,7 +14,7 @@ buildscript {
     ...
     dependencies {
         ...
-        classpath "com.google.gms:google-services:4.2.0"
+        classpath "com.google.gms:google-services:4.3.5"
         ...
     }
 }
@@ -33,7 +33,7 @@ allprojects {
 
 Add this dependency to your app _build.gradle_ and apply the plugin at the bottom:
 ```gradle
-implementation 'com.github.grumpyshoe:android-module-pushmanager:1.2.2'
+implementation 'com.github.grumpyshoe:android-module-pushmanager:1.3.1'
 ```
 ```gradle
 ...
@@ -50,7 +50,7 @@ val pushmanager: PushManager = PushManagerImpl
 Put your `google-services.json` to the app-root folder.
 
 
-Create a class extending `PushmanagerMessagingService` and implement `handleNotificationPayload`.
+Create a class extending `PushmanagerMessagingService` and implement `handleNotificationPayload`. Here you can decide if a notification should be silent handled or shown to the user according to it's reason.
 ```kotlin
 class MyService : PushmanagerMessagingService() {
 
