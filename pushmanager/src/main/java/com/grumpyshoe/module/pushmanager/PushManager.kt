@@ -8,7 +8,7 @@ import com.grumpyshoe.module.pushmanager.models.RemoteMessageData
 /**
  * <p>PushManager - interface for easy access to FCM</p>
  *
- * @version  1.2.0
+ * @version  1.3.0
  * @since    1.0.0
  * @author   grumpyshoe
  *
@@ -20,14 +20,14 @@ interface PushManager {
      * register device for cloudmessaging
      *
      */
-    fun register(context: Context, onTokenReceived: (String) -> Unit, onFailure: (Exception?) -> Unit)
+    suspend fun register(context: Context, onTokenReceived: (String) -> Unit, onFailure: (Exception?) -> Unit)
 
 
     /**
-     * unregister device from cloudmessaging
+     * delete this Firebase app installation from the Firebase backend
      *
      */
-    fun unregister(context: Context, token: String)
+    suspend fun unregister(context: Context)
 
 
     /**

@@ -3,16 +3,15 @@ package com.grumpyshoe.module.pushmanager.impl
 import android.content.Context
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.grumpyshoe.module.pushmanager.PushManager
-import org.jetbrains.anko.doAsync
 
 
 /**
  * <p>PushManagerImpl is based on PushManager and contains all connection logic for handling FCM</p>
  *
- * @version  1.2.0
+ * @version  1.3.0
  * @since    1.0.0
  * @author   grumpyshoe
  *
@@ -35,14 +34,14 @@ object PushManagerImpl : PushManager {
      * register
      *
      */
-    override fun register(context: Context, onTokenReceived: (String) -> Unit, onFailure: (Exception?) -> Unit) {
+    override suspend fun register(context: Context, onTokenReceived: (String) -> Unit, onFailure: (Exception?) -> Unit) {
 
         this.onTokenReceived = onTokenReceived
 
         // init firebase
         initPushmanager(context)
 
-        FirebaseInstanceId.getInstance().instanceId
+        FirebaseInstallations.getInstance().id
             .addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
                     onFailure(task.exception)
@@ -50,7 +49,7 @@ object PushManagerImpl : PushManager {
                 }
 
                 // Get new Instance ID token
-                val token = task.result?.token
+                val token = task.result
 
                 // Log and toast
                 token?.let {
@@ -64,14 +63,12 @@ object PushManagerImpl : PushManager {
      * unregister
      *
      */
-    override fun unregister(context: Context, token: String) {
+    override suspend fun unregister(context: Context) {
 
         // init firebase
         initPushmanager(context)
 
-        doAsync {
-            FirebaseInstanceId.getInstance().deleteInstanceId()
-        }
+        FirebaseInstallations.getInstance().delete()
     }
 
 

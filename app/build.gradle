@@ -29,6 +29,7 @@ dependencies {
     implementation libs.kotlin
     implementation libs.appcompat
     implementation libs.constraint_layout
+    implementation libs.coroutines
     testImplementation libs.junit
     androidTestImplementation libs.test_runner
     androidTestImplementation libs.espresso_core

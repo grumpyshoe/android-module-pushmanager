@@ -92,7 +92,7 @@ Add your implementation to you `Manifest.xml`
 
 ### Register to FCM
 
-Call the method `register` in your `onCreate` to register to FCM.
+Call the method `register` in your `onCreate` to register to FCM. Notice that `register` is a coroutine so you have to use something like `GlobalScope.launch` to run this function.
 ```kotlin
 pushmanager.register(
       context = this,
@@ -106,9 +106,9 @@ pushmanager.register(
 
 
 ### Unregister from FCM
-To unregister from FCM you need to register first. By using the token you received, you are able to unregister.
+To unregister from FCM you need to register first. Notice that `unregister` is a coroutine so you have to use something like `GlobalScope.launch` to run this function.
 ```kotlin
-pushmanager.unregister(context, token)
+pushmanager.unregister(context)
 ```
 
 
@@ -170,6 +170,11 @@ See [Troubleshooting](https://github.com/grumpyshoe/android-module-pushmanager/w
 Please [submit an issue](https://github.com/grumpyshoe/android-module-pushmanager/issues) on GitHub.
 
 
+## Changelog
+
+See [CHANGELOG](CHANGELOG.md) for morre information.
+
+
 ## License
 
 This project is licensed under the terms of the MIT license. See the [LICENSE](LICENSE) file.
@@ -177,25 +182,12 @@ This project is licensed under the terms of the MIT license. See the [LICENSE](L
 
 ## Other information
 
-#### Changelog
-**1.1.0**
-- Change PendingIntent handling and move it's logic to `NotificationData`.
-
-**1.2.0**
-- Change structure of how to implement payload handling
-
-**1.2.1**
-- Make return value for `handleNotificationPayload` nullable. If this method returns _null_ no notification will be generated.
-
-**1.2.2**
-- Bump dependencies to latest version.
-
 
 #### Build Environment
 ```
-Android Studio 3.5
-Build #AI-191.8026.42.35.5791312, built on August 9, 2019
-JRE: 1.8.0_202-release-1483-b49-5587405 x86_64
-JVM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
-macOS 10.14.4
+Android Studio 4.1.2
+Build #AI-201.8743.12.41.7042882, built on December 20, 2020
+Runtime version: 1.8.0_242-release-1644-b3-6915495 x86_64
+VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
+macOS 10.15.5
 ```

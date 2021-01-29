@@ -11,6 +11,6 @@ class NotificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.notification)
 
-        notification.text = intent.extras.getString("type")
+        notification.text = intent.extras?.getString("type") ?: "param 'type' not found"
     }
 }
